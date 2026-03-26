@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 
 const App = () => {
-  const [next, setNext] = useState(1);
+  const [next, setNext] = useState(8974);
   const [search, setSearch] = useState("");
 
   const videoURL = encodeURIComponent(
-    `https://vk25cdn.viralkand.com/8000/897${next}.mp4`
+    `https://vk25cdn.viralkand.com/8000/${next}.mp4`
   );
 
   const [video, setVideo] = useState('');
@@ -44,7 +44,8 @@ const App = () => {
         {video && (
           <div className="w-full h-115  max-w-3xl bg-white shadow-lg rounded-xl p-4">
              <video className="w-full h-110  rounded-lg"
-          src={`http://localhost:3000/proxy?url=${encodeURIComponent(video)}`}
+          src={`https://the-artist.onrender.com/proxy?url=${encodeURIComponent(video)}`||`
+http://localhost:3000/proxy?url=${encodeURIComponent(video)}`}
           controls
              
         />
@@ -58,7 +59,7 @@ const App = () => {
       <div className="w-full h-115  max-w-3xl bg-white shadow-lg rounded-xl p-4 mt-4">
         <video
           key={next}
-          src={`https://the-artist.onrender.com/proxy?url=${videoURL}`}
+          src={`https://the-artist.onrender.com/proxy?url=${videoURL}`||`http://localhost:3000/proxy?url=${videoURL}`}
           controls
           className="w-full h-110  rounded-lg"
         />
