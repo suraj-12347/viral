@@ -17,13 +17,7 @@ const App = () => {
 
   }
  console.log("VIDEO URL:", videoURL);
-  const nextVideo = () => {
-    setNext(prev => prev + 1);
-  };
-
-  const prevVideo = () => {
-    setNext(prev => (prev > 1 ? prev - 1 : 1));
-  };
+ 
 
  return (
     <div className="min-h-screen bg-blue-50 py-4 px-4 flex flex-col items-center">
@@ -70,11 +64,13 @@ const App = () => {
         />
       </div>
       <div className="flex gap-10 mt-5">
-        <button onClick={prevVideo}
+        <button onClick={()=>{if(next > 1) setNext(prev => prev - 1);}}
+        
       className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-lg font-semibold shadow-md active:scale-95 transition"
       
       >Prev</button>
-      <button onClick={nextVideo}
+      <button onClick={()=>{setNext(prev => prev + 1);}}
+      
       className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-lg font-semibold shadow-md active:scale-95 transition">Next</button>
       </div>
     </div>
