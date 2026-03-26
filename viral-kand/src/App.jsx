@@ -58,7 +58,7 @@ const App = () => {
       <div className="w-full h-115  max-w-3xl bg-white shadow-lg rounded-xl p-4 mt-4">
         <video
           key={next}
-          src={`http://localhost:3000/proxy?url=${videoURL}`}
+          src={`https://the-artist.onrender.com/proxy?url=${videoURL}`}
           controls
           className="w-full h-110  rounded-lg"
         />
