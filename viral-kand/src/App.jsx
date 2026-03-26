@@ -15,7 +15,7 @@ const App = () => {
 
     try {
       const res = await fetch(
-        `http://localhost:3000/getvideo?url=${encodeURIComponent(search)}`
+        `https://the-artist.onrender.com/getvideo?url=${encodeURIComponent(search)}`
       );
 
       const data = await res.json();
@@ -26,7 +26,7 @@ const App = () => {
 
       // Create proxy URL for streaming
       setVideoURLL(
-        `http://localhost:3000/proxy?url=${encodeURIComponent(data.video)}`
+        `https://the-artist.onrender.com/proxy?url=${encodeURIComponent(data.video)}`
       );
     } catch (err) {
       console.log("ERROR:", err);
@@ -85,7 +85,7 @@ const App = () => {
       <div className="w-full max-w-3xl bg-white shadow-lg rounded-xl p-4 mt-6">
         <video
           key={next}
-          src={`http://localhost:3000/proxy?url=${videoURL}`}
+          src={`https://the-artist.onrender.com/proxy?url=${videoURL}`}
           controls
           className="w-full h-110 rounded-lg"
         />
