@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Video Extractor</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #e6f0ff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .search-box {
+      display: flex;
+      gap: 10px;
+      max-width: 600px;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    input {
+      flex: 1;
+      padding: 12px 15px;
+      border: 1px solid #8ab4f8;
+      border-radius: 10px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #1a73e8;
+    }
+
+    button {
+      padding: 12px 18px;
+      background: #1a73e8;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    button:hover {
+      background: #155fcc;
+    }
+
+    .card {
+      background: white;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      max-width: 700px;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .video-player {
+      width: 100%;
+      height: 420px;
+      border-radius: 10px;
+      background: black;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 40px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SEARCH AREA -->
+  <div class="search-box">
+    <input id="searchInput" type="text" placeholder="Enter page URL..." />
+    <button onclick="extractVideo()">Search</button>
+  </div>
+
+  <p id="loadingText" style="color:#1a73e8;font-weight:600;display:none;">
+    Fetching video... please wait
+  </p>
+
+  <!-- EXTRACTED VIDEO -->
+  <div id="extractedCard" class="card" style="display:none;">
+    <video id="extractedVideo" class="video-player" controls autoplay></video>
+  </div>
+
+  <!-- MANUAL PLAYER -->
+  <div class="card">
+    <video id="manualVideo" class="video-player" controls></video>
+  </div>
+
+  <div class="btn-row">
+    <button onclick="prevVideo()">Prev</button>
+    <button onclick="nextVideo()">Next</button>
+  </div>
+
+  <script>
+    let next = 8989;
+    let loadingText = document.getElementById("loadingText");
+    let manualVideo = document.getElementById("manualVideo");
+
+    // Initial manual video load
+    loadManualVideo();
+
+    function loadManualVideo() {
+      const videoURL = encodeURIComponent(
+        `https://vk25cdn.viralkand.com/8000/${next}.mp4`
+      );
+      manualVideo.src = `https://the-artist.onrender.com/proxy?url=${videoURL}`;
+    }
+
+    // NEXT video
+    function nextVideo() {
+      next++;
+      loadManualVideo();
+    }
+
+    // PREV video
+    function prevVideo() {
+      if (next > 1) {
+        next--;
+        loadManualVideo();
+      }
+    }
+
+    // Extract video from URL
+    async function extractVideo() {
+      const url = document.getElementById("searchInput").value.trim();
+      if (!url) return;
+
+      loadingText.style.display = "block";
+
+      try {
+        const res = await fetch(
+          `https://the-artist.onrender.com/getvideo?url=${encodeURIComponent(url)}`
+        );
+        const data = await res.json();
+
+        if (!data.video) {
+          alert("Video not found!");
+          return;
+        }
+
+        const finalURL = `https://the-artist.onrender.com/proxy?url=${encodeURIComponent(
+          data.video
+        )}`;
+
+        document.getElementById("extractedVideo").src = finalURL;
+        document.getElementById("extractedCard").style.display = "block";
+      } catch (err) {
+        console.log("ERROR:", err);
+      } finally {
+        loadingText.style.display = "none";
+        document.getElementById("searchInput").value = "";
+      }
+    }
+  </script>
+
+</body>
+</html>
